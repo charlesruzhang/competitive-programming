@@ -1,3 +1,4 @@
+// By Auchenai01
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
@@ -15,33 +16,29 @@ void solve() {
     cin >> n;
     string s;
     cin >> s;
-    vector<pii> co(26);
-    for (int i = 0; i < 26; i++) {
-    	co[i].second = i;
+    vector<pii> cnt(26);
+    for (int i = 0; i < n; i++) {
+    	int z = s[i] - 'a';
+    	cnt[z].first++;
     }
-    for (char c : s) {
-    	co[c - 'a'].first++;
-    }
-    vector<char> v(n, 0);
-    sort(co.begin(), co.end(), greater<>());
-    int idx = 0; 
     for (int i = 0; i < 26; i++) {
-    	int cur = idx;
-    	while (co[i].first) {
-    		while (v[cur]) {
-    			cur++;
-    		}
-    		v[cur] = (char) ('a' + co[i].second);
-    		co[i].first--;
-    		cur+=3;
-    		if (cur >= n) {
-    			idx++;
-    			cur = idx;
-    		} 
-    	}
+    	cnt[i].second = i;
+    }
+    sort(cnt.begin(), cnt.end());
+    vector<char> ans(n);
+    for (int i = 0; i < n; i+=2) {
+    	ans[i] = (char) (cnt.back().second + 'a');
+    	cnt.back().first --;
+    	if (cnt.back().first == 0) cnt.pop_back();
+    }
+
+    for (int i = 1; i < n; i+=2) {
+    	ans[i] = (char) (cnt.back().second + 'a');
+    	cnt.back().first --;
+    	if (cnt.back().first == 0) cnt.pop_back();
     }
     for (int i = 0; i < n; i++) {
-    	cout << v[i];
+    	cout << ans[i];
     }
     cout << endl;
 }
