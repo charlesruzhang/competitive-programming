@@ -1,0 +1,50 @@
+// By Auchenai01
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using vl = vector<ll>;
+using vvl = vector<vector<ll>>;
+const ll MOD = 998244353;
+const ll MAXX = 1e16;
+const int INF = 1e9 + 7;
+void solve() {
+    ll u, v;
+    cin >> u >> v;
+    if (u == 0 && v == 0) {
+    	cout << 0 << endl;
+    	return;
+    }
+    if (v < u || (v - u) % 2) {
+    	cout << -1 << endl;
+    	return;
+    }
+    if (u == v) {
+    	cout << 1 << endl;
+    	cout << u << endl;
+    	return;
+    }
+    ll x = (v - u) / 2;
+    if (!(u & x)) {
+    	cout << 2 << endl;
+    	cout << (u | x) << " " << x << endl;
+    	return;
+    }
+    cout << 3 << endl;
+    cout << u << " " << x << " " << x << endl;
+}
+
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    ll t = 1;
+    //cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}

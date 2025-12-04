@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using vl = vector<ll>;
+using vvl = vector<vector<ll>>;
+const ll MOD = 998244353;
+const ll MAXX = 1e16;
+void solve() {
+    int a, b, c;
+    cin >> a >> b >> c;
+    int x = (a + b + c) / 3;
+    if ((a + b + c) % 3 == 0 && ( (c - x) >= (x - a))) {
+    	cout << "YEs" << endl;
+    } else {
+    	cout << "NO" << endl;
+    }
+}
+
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    ll t = 1;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}

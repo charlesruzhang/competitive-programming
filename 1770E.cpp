@@ -1,0 +1,107 @@
+// By Auchenai01
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using vl = vector<ll>;
+using vvl = vector<vector<ll>>;
+const ll MOD = 998244353;
+const ll MAXX = 1e16;
+const int INF = 1e9 + 7;
+
+struct mi {
+	int v;
+	explicit operator int() const { return v; }
+	mi() { v = 0; }
+	mi(long long _v) : v(_v % MOD) { v += (v < 0) * MOD; }
+};
+mi &operator+=(mi &a, mi b) {
+	if ((a.v += b.v) >= MOD) a.v -= MOD;
+	return a;
+}
+mi &operator-=(mi &a, mi b) {
+	if ((a.v -= b.v) < 0) a.v += MOD;
+	return a;
+}
+mi operator+(mi a, mi b) { return a += b; }
+mi operator-(mi a, mi b) { return a -= b; }
+mi operator*(mi a, mi b) { return mi((long long)a.v * b.v); }
+mi &operator*=(mi &a, mi b) { return a = a * b; }
+mi pow(mi a, long long p) {
+	assert(p >= 0);
+	return p == 0 ? 1 : pow(a * a, p / 2) * (p & 1 ? a : 1);
+}
+mi inv(mi a) {
+	assert(a.v != 0);
+	return pow(a, MOD - 2);
+}
+mi operator/(mi a, mi b) { return a * inv(b); }
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    vi a(n);
+    for (int i = 0; i < k; i++) {
+    	int x;
+    	cin >> x;
+    	x--;
+    	a[x] = 1;
+    }
+    vector<vector<pii>> e(n);
+    vector<pii> edges;
+    for (int i = 1; i < n; i++) {
+    	int u, v;
+    	cin >> u >> v;
+    	u--; v--;
+    	e[u].push_back({i, v});
+    	e[v].push_back({i, u});
+    	edges.push_back({u, v});
+    }
+    vi parent(n);
+    vi sz(n);
+    function <void(int, int)> dfs = [&] (int u, int p) {
+    	sz[u] = a[u];
+    	parent[u] = p;
+    	for (auto [id, v] : e[u]) {
+    		if (v != p) {
+    			dfs(v, u);
+    			sz[u] += sz[v];
+    		}
+    	}
+    };
+    dfs(0, -1);
+    mi ans = 0;
+    vector<mi> P(n);
+    for (int i = 0; i < n; i++) {
+    	P[i] = a[i];
+    }
+    mi i2 = inv(2);
+    for (int i = 0; i < n - 1; i++) {
+    	auto [u, v] = edges[i];
+    	if (v == parent[u]) swap(u, v);
+    	mi x = P[u];
+    	mi y = P[v];
+    	P[u] = P[v] = x * y + (1 - x) * y * i2 + x * (1 - y) * i2;
+    	// u -> v: u & ~v; v -> u: v & ~u
+    	ans += (1 - (1 - x) * y * i2 - x * (1 - y) * i2) * (mi)sz[v] * (k - sz[v]);
+    	ans += x * (1 - y) * i2 * (mi)(sz[v] + 1) * (k - sz[v] - 1);
+    	ans += (1 - x) * y * i2 * (mi)(sz[v] - 1) * (k - sz[v] + 1);
+    	//cout << i << " " << (int) ans << endl;
+    }
+    mi x = mi(k - 1) * k * i2;
+    cout << (int) (ans * inv(x)) << endl;
+}
+
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    ll t = 1;
+    //cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
