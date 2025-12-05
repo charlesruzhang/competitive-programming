@@ -1,6 +1,6 @@
 # Competitive Programming Solutions
 
-This repository is a personal archive of my solved competitive programming problems (mostly **C++**).  
+This repository is a personal archive of my solved competitive programming problems (mostly **C++**).  My codeforces handle is Auchenai01.
 I use it to track progress, keep solutions organized, and reuse templates across contests.
 
 ## Platforms / Folders
