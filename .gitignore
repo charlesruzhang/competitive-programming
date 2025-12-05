@@ -1,0 +1,8 @@
+# Windows executables
+*.exe
+
+# C++ test build/output folders
+*.cpp__tests
+
+# Object files
+*.o
